@@ -1,4 +1,4 @@
-import { Http } from "code-push/script/acquisition-sdk";
+import { Verb, Requester, Response } from "./http";
 import type { Callback } from "./callbackUtil";
 import type { HttpResponse, HttpOptions } from "@capacitor-community/http";
 import { Http as NativeHttp } from "@capacitor-community/http";
@@ -7,20 +7,20 @@ import { Http as NativeHttp } from "@capacitor-community/http";
 /**
  * XMLHttpRequest-based implementation of Http.Requester.
  */
-export class HttpRequester implements Http.Requester {
+export class HttpRequester implements Requester {
     private contentType: string | undefined;
 
     constructor(contentType?: string | undefined) {
         this.contentType = contentType;
     }
 
-    public request(verb: Http.Verb, url: string, callbackOrRequestBody: Callback<Http.Response> | string, callback?: Callback<Http.Response>): void {
+    public request(verb: Verb, url: string, callbackOrRequestBody: Callback<Response> | string, callback?: Callback<Response>): void {
         var requestBody: any;
-        var requestCallback: Callback<Http.Response> = callback!;
+        var requestCallback: Callback<Response> = callback!;
 
         // request(verb, url, callback)
         if (!requestCallback && typeof callbackOrRequestBody === "function") {
-            requestCallback = <Callback<Http.Response>>callbackOrRequestBody;
+            requestCallback = <Callback<Response>>callbackOrRequestBody;
         }
 
         // request(verb, url, requestBody, callback)
@@ -61,7 +61,7 @@ export class HttpRequester implements Http.Requester {
         }
         NativeHttp.request(options).then((nativeRes: HttpResponse) => {
             if (typeof nativeRes.data === "object") nativeRes.data = JSON.stringify(nativeRes.data);
-            var response: Http.Response = { statusCode: nativeRes.status, body: nativeRes.data };
+            var response: Response = { statusCode: nativeRes.status, body: nativeRes.data };
             requestCallback && requestCallback(null, response);
         });
     }
@@ -70,23 +70,23 @@ export class HttpRequester implements Http.Requester {
      * Gets the HTTP method name as a string.
      * The reason for which this is needed is because the Http.Verb enum corresponds to integer values from native runtime.
      */
-    private getHttpMethodName(verb: Http.Verb): string | null {
+    private getHttpMethodName(verb: Verb): string | null {
         switch (verb) {
-            case Http.Verb.GET:
+            case Verb.GET:
                 return "GET";
-            case Http.Verb.DELETE:
+            case Verb.DELETE:
                 return "DELETE";
-            case Http.Verb.HEAD:
+            case Verb.HEAD:
                 return "HEAD";
-            case Http.Verb.PATCH:
+            case Verb.PATCH:
                 return "PATCH";
-            case Http.Verb.POST:
+            case Verb.POST:
                 return "POST";
-            case Http.Verb.PUT:
+            case Verb.PUT:
                 return "PUT";
-            case Http.Verb.TRACE:
-            case Http.Verb.OPTIONS:
-            case Http.Verb.CONNECT:
+            case Verb.TRACE:
+            case Verb.OPTIONS:
+            case Verb.CONNECT:
             default:
                 return null;
         }

@@ -1,4 +1,3 @@
-import { Http } from "code-push/script/acquisition-sdk";
 import { Http as NativeHttp } from "@capacitor-community/http";
 /**
  * XMLHttpRequest-based implementation of Http.Requester.
@@ -62,21 +61,21 @@ export class HttpRequester {
      */
     getHttpMethodName(verb) {
         switch (verb) {
-            case Http.Verb.GET:
+            case 0 /* Verb.GET */:
                 return "GET";
-            case Http.Verb.DELETE:
+            case 4 /* Verb.DELETE */:
                 return "DELETE";
-            case Http.Verb.HEAD:
+            case 1 /* Verb.HEAD */:
                 return "HEAD";
-            case Http.Verb.PATCH:
+            case 8 /* Verb.PATCH */:
                 return "PATCH";
-            case Http.Verb.POST:
+            case 2 /* Verb.POST */:
                 return "POST";
-            case Http.Verb.PUT:
+            case 3 /* Verb.PUT */:
                 return "PUT";
-            case Http.Verb.TRACE:
-            case Http.Verb.OPTIONS:
-            case Http.Verb.CONNECT:
+            case 5 /* Verb.TRACE */:
+            case 6 /* Verb.OPTIONS */:
+            case 7 /* Verb.CONNECT */:
             default:
                 return null;
         }
