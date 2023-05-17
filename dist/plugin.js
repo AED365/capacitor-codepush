@@ -421,7 +421,7 @@ var capacitorPlugin = (function (exports, acquisitionSdk, filesystem, core, http
             }
             var methodName = this.getHttpMethodName(verb);
             if (methodName === null) {
-                return requestCallback(new Error("Method Not Allowed"), null);
+                return requestCallback(new Error("Method Not Allowed"), undefined);
             }
             const headers = {
                 "X-CodePush-Plugin-Name": "cordova-plugin-code-push",

@@ -1,5 +1,5 @@
 export interface Callback<T> {
-    (error: Error | null | undefined, parameter: T): void;
+    (error: Error | null | undefined, parameter: T | null | undefined): void;
 }
 export interface SuccessCallback<T> {
     (result?: T): void;

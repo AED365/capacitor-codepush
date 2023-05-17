@@ -38,7 +38,7 @@ export class HttpRequester implements Requester {
 
         var methodName = this.getHttpMethodName(verb);
         if (methodName === null) {
-            return requestCallback(new Error("Method Not Allowed"), null);
+            return requestCallback(new Error("Method Not Allowed"), undefined);
         }
 
         const headers: { [key: string]: string } = {
