@@ -1,4 +1,4 @@
-import { Http as NativeHttp } from "@capacitor-community/http";
+import { HTTP as NativeHttp } from "@ionic-native/http";
 /**
  * XMLHttpRequest-based implementation of Http.Requester.
  */
@@ -48,7 +48,7 @@ export class HttpRequester {
         else {
             options.data = requestBody;
         }
-        NativeHttp.request(options).then((nativeRes) => {
+        NativeHttp.get(url, options, {}).then((nativeRes) => {
             if (typeof nativeRes.data === "object")
                 nativeRes.data = JSON.stringify(nativeRes.data);
             var response = { statusCode: nativeRes.status, body: nativeRes.data };

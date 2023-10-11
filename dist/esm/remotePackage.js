@@ -14,7 +14,7 @@ import { Package } from "./package";
 import { Sdk } from "./sdk";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 import { FileUtil } from "./fileUtil";
-import { Http } from "@capacitor-community/http";
+import { HTTP as Http } from "@ionic-native/http";
 /**
  * Defines a remote package, which represents an update package available for download.
  */
@@ -55,18 +55,18 @@ export class RemotePackage extends Package {
                 let listener = undefined;
                 if (typeof downloadProgress === "function") {
                     progress = true;
-                    listener = yield Http.addListener("progress", (e) => {
-                        return downloadProgress({ totalBytes: e.contentLength, receivedBytes: e.bytes });
-                    });
+                    /*listener = await Http.addListener("progress", (e) => {
+                      return downloadProgress({totalBytes: e.contentLength, receivedBytes: e.bytes} );
+                    });*/
                 }
-                yield Http.downloadFile({
+                yield Http.downloadFile(this.downloadUrl, {
                     url: this.downloadUrl,
                     method: "GET",
                     filePath: file,
                     fileDirectory: Directory.Data,
                     responseType: "blob",
                     progress: progress,
-                }).then(() => {
+                }, {}, fullPath).then(() => {
                     if (listener)
                         listener.remove();
                 });

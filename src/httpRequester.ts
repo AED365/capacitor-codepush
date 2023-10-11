@@ -1,8 +1,8 @@
 import { Verb, Requester, Response } from "./http";
 import type { Callback } from "./callbackUtil";
-import type { HttpResponse, HttpOptions } from "@capacitor-community/http";
-import { Http as NativeHttp } from "@capacitor-community/http";
-
+import type { HTTPResponse as HttpResponse } from "@ionic-native/http";
+import { HTTP as NativeHttp } from "@ionic-native/http";
+import { HttpOptions } from "@capacitor/core";
 
 /**
  * XMLHttpRequest-based implementation of Http.Requester.
@@ -59,7 +59,7 @@ export class HttpRequester implements Requester {
         } else {
             options.data = requestBody;
         }
-        NativeHttp.request(options).then((nativeRes: HttpResponse) => {
+        NativeHttp.get(url, options, {}).then((nativeRes: HttpResponse) => {
             if (typeof nativeRes.data === "object") nativeRes.data = JSON.stringify(nativeRes.data);
             var response: Response = { statusCode: nativeRes.status, body: nativeRes.data };
             requestCallback && requestCallback(null, response);

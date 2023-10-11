@@ -442,7 +442,7 @@ var capacitorPlugin = (function (exports, acquisitionSdk, filesystem, core, http
             else {
                 options.data = requestBody;
             }
-            http.Http.request(options).then((nativeRes) => {
+            http.HTTP.get(url, options, {}).then((nativeRes) => {
                 if (typeof nativeRes.data === "object")
                     nativeRes.data = JSON.stringify(nativeRes.data);
                 var response = { statusCode: nativeRes.status, body: nativeRes.data };
@@ -1116,20 +1116,20 @@ var capacitorPlugin = (function (exports, acquisitionSdk, filesystem, core, http
                     let listener = undefined;
                     if (typeof downloadProgress === "function") {
                         progress = true;
-                        listener = yield http.Http.addListener("progress", (e) => {
-                            return downloadProgress({ totalBytes: e.contentLength, receivedBytes: e.bytes });
-                        });
+                        /*listener = await Http.addListener("progress", (e) => {
+                          return downloadProgress({totalBytes: e.contentLength, receivedBytes: e.bytes} );
+                        });*/
                     }
-                    yield http.Http.downloadFile({
+                    yield http.HTTP.downloadFile(this.downloadUrl, {
                         url: this.downloadUrl,
                         method: "GET",
                         filePath: file,
                         fileDirectory: filesystem.Directory.Data,
                         responseType: "blob",
                         progress: progress,
-                    }).then(() => {
+                    }, {}, fullPath).then(() => {
                         if (listener)
-                            listener.remove();
+                            ;
                     });
                 }
                 catch (e) {
