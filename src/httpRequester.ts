@@ -49,17 +49,13 @@ export class HttpRequester implements Requester {
         if (this.contentType) {
             headers["Content-Type"] = this.contentType;
         }
-        const options: HttpOptions = {
-            method: methodName,
-            url,
-            headers
-        };
+        let options = {};
         if (methodName === "GET") {
-            options.params = requestBody;
+            options = requestBody;
         } else {
-            options.data = requestBody;
+            options = requestBody;
         }
-        NativeHttp.get(url, options, {}).then((nativeRes: HttpResponse) => {
+        NativeHttp.get(url, options, headers).then((nativeRes: HttpResponse) => {
             if (typeof nativeRes.data === "object") nativeRes.data = JSON.stringify(nativeRes.data);
             var response: Response = { statusCode: nativeRes.status, body: nativeRes.data };
             requestCallback && requestCallback(null, response);
