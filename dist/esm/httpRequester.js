@@ -37,14 +37,13 @@ export class HttpRequester {
         if (this.contentType) {
             headers["Content-Type"] = this.contentType;
         }
-        let options = {};
+        /*let options = {};
         if (methodName === "GET") {
             options = requestBody;
-        }
-        else {
+        } else {
             options = requestBody;
-        }
-        NativeHttp.get(url, options, headers).then((nativeRes) => {
+        }*/
+        NativeHttp.get(url, null, headers).then((nativeRes) => {
             if (typeof nativeRes.data === "object")
                 nativeRes.data = JSON.stringify(nativeRes.data);
             var response = { statusCode: nativeRes.status, body: nativeRes.data };
