@@ -1115,14 +1115,20 @@ var capacitorPlugin = (function (exports, acquisitionSdk, filesystem, core, http
                           return downloadProgress({totalBytes: e.contentLength, receivedBytes: e.bytes} );
                         });*/
                     }
-                    yield http.HTTP.downloadFile(this.downloadUrl, {
-                        url: this.downloadUrl,
-                        method: "GET",
-                        filePath: file,
-                        fileDirectory: filesystem.Directory.Data,
-                        responseType: "blob",
-                        progress: progress,
-                    }, {}, fullPath).then(() => {
+                    /*{
+                      url: this.downloadUrl,
+                      method: "GET",
+                      filePath: file,
+                      fileDirectory: Directory.Data,
+                      responseType: "blob",
+                      progress: progress,
+                    }*/
+                    const headers = {
+                        "X-CodePush-Plugin-Name": "cordova-plugin-code-push",
+                        "X-CodePush-Plugin-Version": "1.11.13",
+                        "X-CodePush-SDK-Version": "3.1.5"
+                    };
+                    yield http.HTTP.downloadFile(this.downloadUrl, null, headers, fullPath).then(() => {
                         if (listener)
                             ;
                     });

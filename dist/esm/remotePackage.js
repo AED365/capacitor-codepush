@@ -59,14 +59,20 @@ export class RemotePackage extends Package {
                       return downloadProgress({totalBytes: e.contentLength, receivedBytes: e.bytes} );
                     });*/
                 }
-                yield Http.downloadFile(this.downloadUrl, {
-                    url: this.downloadUrl,
-                    method: "GET",
-                    filePath: file,
-                    fileDirectory: Directory.Data,
-                    responseType: "blob",
-                    progress: progress,
-                }, {}, fullPath).then(() => {
+                /*{
+                  url: this.downloadUrl,
+                  method: "GET",
+                  filePath: file,
+                  fileDirectory: Directory.Data,
+                  responseType: "blob",
+                  progress: progress,
+                }*/
+                const headers = {
+                    "X-CodePush-Plugin-Name": "cordova-plugin-code-push",
+                    "X-CodePush-Plugin-Version": "1.11.13",
+                    "X-CodePush-SDK-Version": "3.1.5"
+                };
+                yield Http.downloadFile(this.downloadUrl, null, headers, fullPath).then(() => {
                     if (listener)
                         listener.remove();
                 });
